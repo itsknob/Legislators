@@ -1,0 +1,98 @@
+.PersonList {
+    /* PersonList Styling */
+    display: grid;
+    width: 90%;
+
+    /* Grid */
+    margin: auto;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-auto-columns: 1fr;
+}
+/*.PersonBox {
+    border: 2px solid red;
+    border-radius: 15px;
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    width: 400px;
+}
+.SideDetails{
+    width: 33%;
+    border: 2px solid green;
+    padding: 5px;
+}
+.ImageBox{
+    border: 2px solid red;
+    padding: 5px;
+}
+.PositionInfoBox {
+    text-align: left;
+    border: 2px solid blue;
+    padding: 5px;
+}
+.MainInfoBox {
+    width: 66%;
+    border: 2px solid blue;
+    padding: 5px;
+}
+.NameBox {
+    border: 2px solid red;
+    padding: 5px;
+}
+.ContentBox {
+    text-align: left;
+    border: 2px solid green;
+    padding: 5px;
+}
+*/
+
+.PersonBox {
+    /* Item Styling */
+    margin: auto;
+    min-width: 400px;
+    height: 100%;
+    padding: 10px;
+
+    /* Sub-Grid */
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+    /* grid-template-columns: 200px 200px 200px; */
+    grid-gap: 10px;
+	grid-template-areas: 
+        "name 		name 	name"
+        "image      info    info"
+		"image   	info 	info"
+        "position	info 	info"
+        "links      links   links";
+}
+
+.ImageBox {
+    max-width: 230px;   /* Smallest size of no-suffix photo link */
+    grid-area: image;
+    object-fit: contain;
+}
+
+
+.NameBox {
+    padding: 10px;
+    grid-area: name;
+    min-width: 150px;
+}
+
+.PositionInfoBox {
+    text-align: left;
+    padding: 10px;
+	grid-area: position;
+}
+
+.MainInfoBox {
+    grid-area: info;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.LinksBox {
+    grid-area: links;
+}
