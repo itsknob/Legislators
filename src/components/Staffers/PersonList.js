@@ -15,6 +15,14 @@ export default class PersonList extends React.Component {
         .then(results => {
             return results.json();
         }).then(data => {
+
+            // Add Data to database here, by person.
+            //   Needs model
+            //   Needs Schema
+            //   Needs DB Connector
+            // DB connector hould be in backend
+            // This should pull from DB for each staffer.
+
             data = data.slice(0, 15);
             let thisPerson = data.map( (person) => {
                 return (

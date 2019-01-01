@@ -23,3 +23,5 @@ yarn-error.log*
 /public/app/cred.txt
 
 *node_modules*
+
+/api/config/*
