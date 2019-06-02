@@ -1,33 +1,33 @@
-import React from "react";
-import "./Staffers.css";
-import { Card, Typography } from "@material-ui/core";
+import React from 'react'
+import './Staffers.css'
+import {Card, Typography} from '@material-ui/core'
 
 export default class Person extends React.Component {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props)
 
-        this.state = {
-            bio: "Loading...",
-            bioGuideId: this.props.bioGuideId || null
-        };
+    this.state = {
+      bio: 'Loading...',
+      bioGuideId: this.props.bioGuideId || null,
     }
-	
-    async componentDidMount() {
-      if(!this.state.bioGuideId) return
-      const data = await (await fetch("/senator/"+this.state.bioGuideId)).text()
-      this.setState({bio: data});
-      // console.log(this.state);
-    }
-    
+  }
+
+  async componentDidMount() {
+    if (!this.state.bioGuideId) return
+    const data = await (await fetch('/senator/' + this.state.bioGuideId)).text()
+    this.setState({bio: data})
+    // console.log(this.state);
+  }
+
   render() {
-    const imageUrl = "https://www.govtrack.us/data/photos/";
+    const imageUrl = 'https://www.govtrack.us/data/photos/'
     const boxShadow = {
-      boxShadow: "1px 1px 5px black"
+      boxShadow: '1px 1px 5px black',
     }
     return (
       <div>
         <Card className="PersonBox">
-        {/*
+          {/*
         <CardMedia
             className="ImageBox"
             component="img"
@@ -38,33 +38,31 @@ export default class Person extends React.Component {
        Claire McCaskill     style={{ objectFit: "contain", objectPosition: "left top"}}
         />
         */}
-        <img 
-            className="ImageBox" 
-            src={imageUrl + this.props.id + ".jpeg"} 
-            alt={this.props.name} 
-            style={boxShadow}    
-        />
-        <Typography className="NameBox" variant="h4">
+          <img
+            className="ImageBox"
+            src={imageUrl + this.props.id + '.jpeg'}
+            alt={this.props.name}
+            style={boxShadow}
+          />
+          <Typography className="NameBox" variant="h4">
             {this.props.name}
-        </Typography>
-        <Typography className="PositionInfoBox" variant="body2" >
-            <strong>{"Chamber: "}</strong>
-            {this.props.position === "sen"
-                ? "Senate"
-                : "House"}
+          </Typography>
+          <Typography className="PositionInfoBox" variant="body2">
+            <strong>{'Chamber: '}</strong>
+            {this.props.position === 'sen' ? 'Senate' : 'House'}
             <br />
-            <strong>{"State: "}</strong>
+            <strong>{'State: '}</strong>
             {this.props.location}
             <br />
-            <strong>{"Party: "}</strong>
+            <strong>{'Party: '}</strong>
             {this.props.party}
-        </Typography>
-        <Typography className="MainInfoBox" variant="body1">
+          </Typography>
+          <Typography className="MainInfoBox" variant="body1">
             {this.state.bio}
-        </Typography>
-        <Typography className="LinksBox" variant="body1">
+          </Typography>
+          <Typography className="LinksBox" variant="body1">
             Links Here.
-        </Typography>
+          </Typography>
         </Card>
         {/*
         <div class="PersonBox">
@@ -108,6 +106,6 @@ export default class Person extends React.Component {
         </div>
         */}
       </div>
-    );
+    )
   }
 }

@@ -6,7 +6,6 @@
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "ajv": "^6.5.5",
-    "concurrently": "^4.1.0",
     "fuse.js": "^3.3.0",
     "material-ui": "^0.20.2",
     "react": "^16.6.3",
@@ -15,9 +14,13 @@
   },
   "scripts": {
     "start-react": "react-scripts start",
-    "start": "concurrently \"react-scripts start\" \"node ./api/index.js\"",
+    "start": "concurrently \"react-scripts start\" \"nodemon ./api/index.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.19.1"
   }
 }
