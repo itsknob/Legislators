@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +13,12 @@
   "dependencies": {
     "express": "^4.16.4",
     "jsdom": "^13.0.0",
-    "mongoose": "^5.4.1",
+    "lowdb": "^1.0.0",
+    "mongoose": "^5.5.9",
     "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.0"
   }
 }

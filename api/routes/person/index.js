@@ -1,15 +1,30 @@
-const person = require('express').Router();
-const all = require('./all');                   // Returns all people
-const single = require('./single');             // Returns person of {:ID}
+const person = require('express').Router()
+// const all = require('./all');                   // Returns all people
+// const single = require('./single');             // Returns person of {:ID}
+const lowdb = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
 
-// to be implemented for db access
-function findObject(value) {
-    return;
+function getPersonById(personId) {
+  const adapter = new FileSync('./data/legislatorsCurrent.json')
+  const db = lowdb(adapter)
+
+  return db.get('legislators').find({id: {govtrack: personId}})
 }
 
-person.param('personId', findObject('person'));
+person.get('/all', (req, res) => {
+  const adapter = new FileSync('./data/legislatorsCurrent.json')
+  const db = lowdb(adapter)
 
-person.get('/', all);
-person.get('/:personId', single);
+  res.send(db.get('legislators'))
+})
+person.get('/:personId', (req, res) => {
+  const value = getPersonById(Number(req.params.personId))
 
-module.exports = person;
+  res.send(value)
+})
+
+person.get('/', (req, res) => {
+  res.status(200).json({message: 'Connected!'})
+})
+
+module.exports = person
