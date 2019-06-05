@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import './Staffers.css'
 import {Card, Typography} from '@material-ui/core'
+import LazyImage from '../LazyLoad/LazyImage'
 
 const Person = props => {
   // Local Constants
-  //const imageURL = 'https://www.govtrack.us/data/photos/'//broken link
   const imageURL = 'https://www.govtrack.us/static/legislator-photos/'
-  const boxShadow = {
+  /* const boxShadow = {
     boxShadow: '1px 1px 5px black',
-  }
-  const bioGuideId = this.props.bioGuideId || null
+  } */
+  const bioGuideId = props.bioguide || null
   // State
   const [bio, setBio] = useState('Loading...')
 
@@ -18,7 +18,7 @@ const Person = props => {
     if (!bioGuideId) return
     //fetch data
     async function fetchBio() {
-      const bio = await (await fetch('/senator/' + this.bioGuideId)).text()
+      const bio = await (await fetch('/senator/' + bioGuideId)).text()
       setBio(bio)
     }
     fetchBio()
@@ -30,29 +30,31 @@ const Person = props => {
   ])
 
   return (
-    <div style="maxHeight: 500px;">
+    <div style={{maxHeight: '500px'}}>
       <Card className="PersonBox">
-        <img
+        <LazyImage
           className="ImageBox"
-          src={imageUrl + this.props.id + '.jpeg'}
-          alt={this.props.name}
-          style={boxShadow}
+          loading="lazy"
+          data-src={imageURL + props.id + '-200px.jpeg'}
+          src={imageURL + props.id + '-200px.jpeg'}
+          alt={props.name}
+          style={{boxShadow: '1px 1px 5px black'}}
         />
         <Typography className="NameBox" variant="h4">
-          <h4>{this.props.name}</h4>
+          {props.name}
         </Typography>
         <Typography className="PositionInfoBox" variant="body2">
           <strong>Chamber: </strong>
-          {this.props.position === 'sen' ? 'Senate' : 'House'}
+          {props.position === 'sen' ? 'Senate' : 'House'}
           <br />
           <strong>State: </strong>
-          {this.props.location}
+          {props.location}
           <br />
           <strong>Party: </strong>
-          {this.props.party}
+          {props.party}
         </Typography>
         <Typography className="MainInfoBox" variant="body1">
-          {this.bio}
+          {bio}
         </Typography>
         <Typography className="LinksBox" variant="body1">
           Links Here
