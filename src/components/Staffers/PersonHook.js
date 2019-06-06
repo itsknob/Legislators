@@ -14,6 +14,7 @@ const Person = props => {
   const [bio, setBio] = useState('Loading...')
 
   // Data Fetching, Dependant on bioGuideID (Shouldn't Change)
+  // todo: update fetch data to hit database
   useEffect(() => {
     if (!bioGuideId) return
     //fetch data
