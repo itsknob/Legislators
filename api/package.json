@@ -19,6 +19,7 @@
     "node-fetch": "^2.3.0"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.13",
     "jest": "^24.8.0",
     "nodemon": "^1.19.0"
   }

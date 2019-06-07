@@ -21,6 +21,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.13",
     "concurrently": "^4.1.0",
     "nodemon": "^1.19.1"
   },
