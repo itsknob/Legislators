@@ -17,8 +17,7 @@
     "start-react": "react-scripts start",
     "start": "concurrently \"react-scripts start\" \"nodemon ./api/index.js\"",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": ".\\\"./api/node_modules/.bin/jest\""
   },
   "devDependencies": {
     "@types/jest": "^24.0.13",
