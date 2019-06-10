@@ -1,0 +1,148 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "array",
+  "items": {
+    "$id": "#/items",
+    "type": "object",
+    "properties": {
+      "id": {
+        "$id": "#/items/properties/id",
+        "type": "object",
+        "properties": {
+          "bioguide": {
+            "$id": "#/items/properties/id/properties/bioguide",
+            "type": "string"
+          },
+          "thomas": {
+            "$id": "#/items/properties/id/properties/thomas",
+            "type": "string"
+          },
+          "lis": {
+            "$id": "#/items/properties/id/properties/lis",
+            "type": "string"
+          },
+          "govtrack": {
+            "$id": "#/items/properties/id/properties/govtrack",
+            "type": "integer"
+          },
+          "opensecrets": {
+            "$id": "#/items/properties/id/properties/opensecrets",
+            "type": "string"
+          },
+          "votesmart": {
+            "$id": "#/items/properties/id/properties/votesmart",
+            "type": "integer"
+          },
+          "fec": {
+            "$id": "#/items/properties/id/properties/fec",
+            "type": "array",
+            "items": {
+              "$id": "#/items/properties/id/properties/fec/items",
+              "type": "string"
+            }
+          },
+          "cspan": {
+            "$id": "#/items/properties/id/properties/cspan",
+            "type": "integer"
+          },
+          "wikipedia": {
+            "$id": "#/items/properties/id/properties/wikipedia",
+            "type": "string"
+          },
+          "house_history": {
+            "$id": "#/items/properties/id/properties/house_history",
+            "type": "integer"
+          },
+          "ballotpedia": {
+            "$id": "#/items/properties/id/properties/ballotpedia",
+            "type": "string"
+          },
+          "maplight": {
+            "$id": "#/items/properties/id/properties/maplight",
+            "type": "integer"
+          },
+          "icpsr": {
+            "$id": "#/items/properties/id/properties/icpsr",
+            "type": "integer"
+          },
+          "wikidata": {
+            "$id": "#/items/properties/id/properties/wikidata",
+            "type": "string"
+          },
+          "google_entity_id": {
+            "$id": "#/items/properties/id/properties/google_entity_id",
+            "type": "string"
+          }
+        }
+      },
+      "name": {
+        "$id": "#/items/properties/name",
+        "type": "object",
+        "properties": {
+          "first": {
+            "$id": "#/items/properties/name/properties/first",
+            "type": "string"
+          },
+          "last": {
+            "$id": "#/items/properties/name/properties/last",
+            "type": "string"
+          },
+          "official_full": {
+            "$id": "#/items/properties/name/properties/official_full",
+            "type": "string"
+          }
+        }
+      },
+      "bio": {
+        "$id": "#/items/properties/bio",
+        "type": "object",
+        "properties": {
+          "birthday": {
+            "$id": "#/items/properties/bio/properties/birthday",
+            "type": "string"
+          },
+          "gender": {
+            "$id": "#/items/properties/bio/properties/gender",
+            "type": "string"
+          }
+        }
+      },
+      "terms": {
+        "$id": "#/items/properties/terms",
+        "type": "array",
+        "items": {
+          "$id": "#/items/properties/terms/items",
+          "type": "object",
+          "properties": {
+            "type": {
+              "$id": "#/items/properties/terms/items/properties/type",
+              "type": "string"
+            },
+            "start": {
+              "$id": "#/items/properties/terms/items/properties/start",
+              "type": "string"
+            },
+            "end": {
+              "$id": "#/items/properties/terms/items/properties/end",
+              "type": "string"
+            },
+            "state": {
+              "$id": "#/items/properties/terms/items/properties/state",
+              "type": "string"
+            },
+            "district": {
+              "$id": "#/items/properties/terms/items/properties/district",
+              "type": "integer"
+            },
+            "party": {
+              "$id": "#/items/properties/terms/items/properties/party",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

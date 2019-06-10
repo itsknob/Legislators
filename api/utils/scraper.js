@@ -28,7 +28,7 @@ async function getCurrentLegislators() {
   )
   const data = await response.json()
 
-  return data
+  return await data
 }
 
 // update db with data from API
@@ -47,15 +47,21 @@ async function getCurrentLegislators() {
     ...
   ]
 */
+
+// todo: refactor to accept database
 function addNewDataToDatabase(data) {
   // init db
   const adapter = new FileSync('./data/legislatorsCurrent.json')
   const db = lowdb(adapter)
-  const dbLeg = db.get(legislators)
 
-  for (let legislator in data) {
-    let curLeg = db.find({id: {govtrack: legislator.id.govtrack}})
+  const legislators = data.legislators
 
+  for (let legislator in legislators) {
+    console.log(legislator)
+    let legId = legislator.id.govtrack
+    let curLeg = db.find({id: {govtrack: legId}})
+
+    // assign to update
     curLeg
       .assign({id: legislator.id})
       .assign({name: legislator.name})
@@ -69,20 +75,23 @@ function addNewDataToDatabase(data) {
   }
 }
 
-function getAndSetCurrentLegislators() {
-  const data = getAndSetCurrentLegislators()
-  addNewDataToDatabase(data)
+function getAndSetCurrentLegislators(...data) {
+  const curData = data['0'] | getCurrentLegislators()
+  console.log(`Data: ${JSON.stringify(curData)}`)
+  addNewDataToDatabase(curData)
   // * idea: add log, and update it after this runs.
 }
 
 const task = cron.schedule(
-  '* * */12 * * *',
+  '*/1 * * * *',
   () => {
     console.log('Running DB Update')
     getAndSetCurrentLegislators()
   },
   {scheduled: false},
 )
+
+console.log('Starting')
 task.start()
 
 module.exports = {
