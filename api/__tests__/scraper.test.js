@@ -254,16 +254,19 @@ describe('scraper utility', () => {
   })
 
   afterEach(() => {
-    // todo: remove testing item from database
-    db.get('legislators')
-      .remove({name: {official_full: 'Nancy Test'}})
-      .write()
-    console.log('Removed Nancy Test')
+    try {
+      db.get('legislators')
+        .remove({name: {official_full: 'Nancy Test'}})
+        .write()
+      console.log('Removed Nancy Test')
+    } catch (e) {
+      console.log("Couldn't remove mock data.")
+      console.log(`Error: ${e}`)
+    }
   })
 
   describe('basic operations', () => {
     test('Add to Database adds correctly (Data is transformed correctly)', () => {
-      // todo: add testing item to
       db.get('legislators')
         .push(nancyTest)
         .write()
