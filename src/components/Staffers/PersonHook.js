@@ -3,6 +3,18 @@ import './Staffers.css'
 import {Card, Typography} from '@material-ui/core'
 import LazyImage from '../LazyLoad/LazyImage'
 
+async function readStream(resp) {
+  const reader = resp.body.getReader()
+  const decoder = new TextDecoder('utf-8')
+  let string = ''
+  while (true) {
+    let data = await reader.read()
+    if (data.done) break
+    string += decoder.decode(data.value)
+  }
+  return string
+}
+
 const Person = props => {
   // Local Constants
   const imageURL = 'https://www.govtrack.us/static/legislator-photos/'
@@ -19,10 +31,21 @@ const Person = props => {
     if (!bioGuideId) return
     //fetch data
     async function fetchBio() {
-      const bio = await (await fetch('/senator/' + bioGuideId)).text()
+      let bio = null // shadow var
+      const response = await fetch('/senator/' + bioGuideId)
+
+      if (response.ok === false) {
+        bio = `Error retreiving bio -- ${
+          (await readStream(response)).split(':')[0]
+        }`
+      } else {
+        bio = await response.text()
+      }
+
       setBio(bio)
     }
     fetchBio()
+    console.warn('Warn: ', bio)
 
     return /* cleanup */
   }, [

@@ -1,11 +1,11 @@
 const fetch = require('node-fetch')
-const jsdom = require('jsdom')
-const {JSDOM} = jsdom
 const express = require('express')
-const routes = require('./routes') // index.js
 const mongoose = require('mongoose')
-const app = express()
+const {JSDOM} = require('jsdom')
 const keys = require('./config/cred')
+const routes = require('./routes') // index.js
+//const {JSDOM} = jsdom
+const app = express()
 const port = 3001
 
 mongoose.connect(
@@ -18,10 +18,6 @@ app.use('/', routes)
 
 app.get('/senator/:id', async (req, res) => {
   const para = await getBio(req.params.id)
-  // console.log(typeof para);
-
-  // console.log(`Para: ${para}`);
-
   res.send(para)
 })
 
@@ -34,9 +30,10 @@ async function getBio(id) {
   const html = await data.text().catch(() => {
     console.log('Could not convert text to html')
   })
+
+  // scrape
   const dom = new JSDOM(html)
   const p = dom.window.document.querySelector('p').textContent
-  // console.log(p);
 
   return new Promise((res, rej) => {
     res(String(p))
