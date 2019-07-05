@@ -1,0 +1,49 @@
+<!-- Single Page Staffer Mockup -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #container {
+            display: grid;
+            grid-template-areas: 
+                "name name"
+                "image bio"
+                "image bio"
+                "info social"
+                "info social";
+            max-width: 75%;
+            margin: auto;
+
+        }
+        .name {
+            grid-area: name;
+        }
+        .image {
+            grid-area: image;
+        }
+        .bio {
+            grid-area: bio;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 align="center">This is the header.</h1>
+    </header>
+    <div id='container'>
+        <div class="name">
+            <h2 align="center">Congressperson Name</h2>
+        </div>
+        <div class="image">
+            <img src="https://placekitten.com/200/300" alt="kitten" />
+        </div>
+        <div calss="bio">
+            <p>BROWN, Sherrod, a Senator and a Representative from Ohio; born in Mansfield, Richland County, Ohio, November 9, 1952; B.A., Yale University, New Haven, Conn., 1974; M.A., Ohio State University, Ohio, 1981; member of the faculty, Ohio State University, Mansfield, Ohio, 1979-1981; member of the Ohio State house of representatives, 1975-1982; Ohio secretary of state, 1983-1991; elected as a Democrat to the One Hundred Third and to the six succeeding Congresses (January 3, 1993-January 3, 2007); not a candidate for reelection to the House of Representatives but was elected as a Democrat to the United States Senate in 2006; reelected in 2012 for the term ending January 3, 2019. </p>
+        </div>
+    </div>
+</body>
+</html>
