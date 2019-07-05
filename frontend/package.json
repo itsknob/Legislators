@@ -1,0 +1,33 @@
+{
+  "name": "project002",
+  "version": "0.1.0",
+  "proxy": "http://localhost:3001",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^3.5.1",
+    "ajv": "^6.5.5",
+    "fuse.js": "^3.3.0",
+    "material-ui": "^0.20.2",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "react-scripts": "^2.1.5",
+    "vanilla-lazyload": "^12.0.0"
+  },
+  "scripts": {
+    "start-react": "react-scripts start",
+    "start": "concurrently \"react-scripts start\" \"nodemon ../backend/index.js\"",
+    "build": "react-scripts build",
+    "test": ".\\\"../backend/node_modules/.bin/jest\""
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.19.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

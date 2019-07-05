@@ -21,6 +21,7 @@ yarn-debug.log*
 yarn-error.log*
 
 /public/app/cred.txt
+/backend/config/*
 
 *node_modules*
 
