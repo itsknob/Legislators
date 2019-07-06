@@ -24,5 +24,10 @@ yarn-error.log*
 # keys
 /public/app/cred.txt
 /backend/config/*
+<<<<<<< HEAD
+=======
+
+*node_modules*
+>>>>>>> 52ec793b8fa5eba1c37712ed599bdcf3924762e3
 
 /api/config/*
