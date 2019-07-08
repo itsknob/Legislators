@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+*node_modules*
 
 # testing
 /coverage
@@ -20,8 +21,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# keys
 /public/app/cred.txt
-/backend/config/cred.js
+/backend/config/*
 
 *node_modules*
 
