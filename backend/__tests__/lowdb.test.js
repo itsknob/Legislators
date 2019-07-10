@@ -1,6 +1,6 @@
-const data = require('../data/legislatorsCurrent.json.js')
-const FileSync = require('../node_modules/@types/lowdb/adapters/FileSync')
-const lowdb = require('../node_modules/@types/lowdb')
+const data = require('../data/legislatorsCurrent.json')
+const FileSync = require('../node_modules/lowdb/adapters/FileSync')
+const lowdb = require('../node_modules/lowdb')
 
 describe('database', () => {
   let db
