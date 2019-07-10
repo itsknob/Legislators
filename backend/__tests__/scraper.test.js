@@ -1,7 +1,7 @@
 //const jest = require('jest')
 const scrape = require('../utils/scraper')
-const lowdb = require('../node_modules/@types/lowdb')
-const FileSync = require('../node_modules/@types/lowdb/adapters/FileSync')
+const lowdb = require('../node_modules/lowdb')
+const FileSync = require('../node_modules/lowdb/adapters/FileSync')
 
 // todo: test functions from scraper.js
 
@@ -258,7 +258,6 @@ describe('scraper utility', () => {
       db.get('legislators')
         .remove({name: {official_full: 'Nancy Test'}})
         .write()
-      console.log('Removed Nancy Test')
     } catch (e) {
       console.log("Couldn't remove mock data.")
       console.log(`Error: ${e}`)
@@ -280,9 +279,11 @@ describe('scraper utility', () => {
     })
   })
 
-  // ! outside of my scope, no control over this endpoint
-  test('getCurrentLegislators is able to retrieve information', () => {
-    expect(scrape.getCurrentLegislators()).not.toBe(undefined)
+  // ! outside of my scope, no control over this endpoint (mock?)
+  test('getCurrentLegislators is able to retrieve information', async () => {
+    const data = await scrape.getCurrentLegislators()
+    expect(data).not.toBe(undefined)
+    expect(data[0]).toHaveProperty('id')
   })
 
   test('addNewDataToDatabase correctly adds item to database', () => {
@@ -295,13 +296,10 @@ describe('scraper utility', () => {
     ).not.toBe(undefined)
   })
 
-  test('getAndSetCurrentLegislators correctly formats and adds', () => {
-    // todo: integration test?
-    const mockDataArray = {legislators: [nancyTest]}
-    scrape.getAndSetCurrentLegislators(mockDataArray)
-
+  test('updateLegislators correctly adds item to database', () => {
+    scrape.updateLegislators()
     expect(
-      db.get('legislators').find({name: {official_full: 'Nancy Test'}}),
+      db.get('legislators').find({name: {official_full: 'Nacny Pelosi'}}),
     ).not.toBe(undefined)
   })
 })

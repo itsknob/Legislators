@@ -8,9 +8,9 @@
 
 const cron = require('../node_modules/node-cron/src/node-cron')
 const fetch = require('../node_modules/node-fetch/lib')
-const lowdb = require('../node_modules/@types/lowdb')
-const _ = require('../node_modules/@types/lodash/ts3.1')
-const FileSync = require('../node_modules/@types/lowdb/adapters/FileSync')
+const lowdb = require('../node_modules/lowdb')
+const _ = require('../node_modules/lodash')
+const FileSync = require('../node_modules/lowdb/adapters/FileSync')
 
 /*
 function getPersonById(personId) {
@@ -26,19 +26,14 @@ async function getCurrentLegislators() {
   const response = await fetch(
     'https://theunitedstates.io/congress-legislators/legislators-current.json',
   )
-  const data = await response.json()
-
-  return await data
+  return await response.json()
 }
 
 // update db with data from API
 /* data comes in as 
   [
     {
-      id: {
-        govtrack:0001
-      }
-    },
+      id: { 
     {
       id: {
         govtrack:0002
@@ -49,6 +44,7 @@ async function getCurrentLegislators() {
 */
 
 function addNewDataToDatabase(data) {
+  // todo: extract db, pass as argument
   // init db
   const adapter = new FileSync('./data/legislatorsCurrent.json')
   const db = lowdb(adapter)
@@ -74,19 +70,18 @@ function addNewDataToDatabase(data) {
   }
 }
 
-// todo: refactor to remove 'and'
-function getAndSetCurrentLegislators(...data) {
-  const curData = data['0'] | getCurrentLegislators()
-  console.log(`Data: ${JSON.stringify(curData)}`)
-  addNewDataToDatabase(curData)
-  // * idea: add log, and update it after this runs.
+function updateLegislators() {
+  const data = getCurrentLegislators()
+  addNewDataToDatabase(data)
 }
 
 const task = cron.schedule(
   '*/1 * * * *',
   () => {
     console.log('Running DB Update')
-    getAndSetCurrentLegislators()
+    updateLegislators()
+    console.log('Updated Legislators')
+    // * idea: add log, and update it after this runs.
   },
   {scheduled: false},
 )
@@ -97,5 +92,5 @@ task.start()
 module.exports = {
   addNewDataToDatabase: addNewDataToDatabase,
   getCurrentLegislators: getCurrentLegislators,
-  getAndSetCurrentLegislators: getAndSetCurrentLegislators,
+  updateLegislators: updateLegislators,
 }
