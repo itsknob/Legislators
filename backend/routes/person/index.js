@@ -1,8 +1,13 @@
-const person = require('../../node_modules/express').Router()
+// const person = require('../../node_modules/express').Router()
 // const all = require('./all');                   // Returns all people
 // const single = require('./single');             // Returns person of {:ID}
-const lowdb = require('../../node_modules/lowdb')
-const FileSync = require('../../node_modules/lowdb/adapters/FileSync')
+// const lowdb = require('../../node_modules/lowdb')
+// const FileSync = require('../../node_modules/lowdb/adapters/FileSync')
+
+import Router from 'express'
+import lowdb from 'lowdb'
+import FileSync from 'lowdb'
+const person = Router()
 
 function getPersonById(personId) {
   const adapter = new FileSync('./data/legislatorsCurrent.json')
@@ -27,4 +32,4 @@ person.get('/', (req, res) => {
   res.status(200).json({message: 'Connected!'})
 })
 
-module.exports = person
+export default person

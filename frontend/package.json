@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start-react": "react-scripts start",
-    "start": "concurrently \"react-scripts start\" \"nodemon ../backend/index.js\"",
+    "start": "concurrently \"react-scripts start\" \"nodemon --experimental-modules ../backend/index.js\"",
     "build": "react-scripts build",
     "test": ".\\\"../backend/node_modules/.bin/jest\""
   },
