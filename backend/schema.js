@@ -1,6 +1,6 @@
-import gql from 'apollo-server-express'
+import gql from 'graphql-tools'
 
-const typeDefs = gql`
+const typeDefs = `
   type Query {
     "A simple type for getting started!"
     hello: String

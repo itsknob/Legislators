@@ -28,3 +28,7 @@ yarn-error.log*
 *node_modules*
 
 /api/config/*
+
+.vscode
+
+package-lock.json
