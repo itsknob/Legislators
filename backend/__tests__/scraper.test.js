@@ -256,7 +256,7 @@ describe('scraper utility', () => {
   afterEach(() => {
     try {
       db.get('legislators')
-        .remove({name: {official_full: 'Nancy Test'}})
+        .remove({ name: { official_full: 'Nancy Test' } })
         .write()
     } catch (e) {
       console.log("Couldn't remove mock data.")
@@ -272,7 +272,7 @@ describe('scraper utility', () => {
 
       const result = db
         .get('legislators')
-        .find({name: {official_full: 'Nancy Test'}})
+        .find({ name: { official_full: 'Nancy Test' } })
         .value()
 
       expect(result).not.toBe(undefined)
@@ -288,18 +288,18 @@ describe('scraper utility', () => {
 
   test('addNewDataToDatabase correctly adds item to database', () => {
     // todo: test scrape.addNewDataToDatabase
-    const mockDataArray = {legislators: [nancyTest]}
+    const mockDataArray = { legislators: [nancyTest] }
     scrape.addNewDataToDatabase([mockDataArray])
 
     expect(
-      db.get('legislators').find({name: {official_full: 'Nancy Test'}}),
+      db.get('legislators').find({ name: { official_full: 'Nancy Test' } }),
     ).not.toBe(undefined)
   })
 
   test('updateLegislators correctly adds item to database', () => {
     scrape.updateLegislators()
     expect(
-      db.get('legislators').find({name: {official_full: 'Nacny Pelosi'}}),
+      db.get('legislators').find({ name: { official_full: 'Nacny Pelosi' } }),
     ).not.toBe(undefined)
   })
 })

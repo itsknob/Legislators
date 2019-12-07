@@ -2,9 +2,9 @@
 // todo: setup scrapers
 // todo: https://scotch.io/tutorials/nodejs-cron-jobs-by-examples
 
-// todo: pull JSON for legislators from api and update db
+// todo: pull JSON for legislators from api and update db -- done
 // todo: scrape bio and update db
-// todo: set up cron
+// todo: set up cron -- done
 
 const cron = require('../node_modules/node-cron/src/node-cron')
 const fetch = require('../node_modules/node-fetch/lib')
@@ -28,6 +28,14 @@ async function getCurrentLegislators() {
   )
   return await response.json()
 }
+
+async function getLegislatorBioguide(id) {
+  const url = `http://bioguide.congress.gov/scripts/biodisplay.pl?index=${id}`
+  const resp = await fetch(url)
+  const data = await resp.json()
+  return data
+}
+
 
 // update db with data from API
 /* data comes in as 
@@ -54,19 +62,22 @@ function addNewDataToDatabase(data) {
   for (let legislator in legislators) {
     console.log(legislator)
     let legId = legislator.id.govtrack
-    let curLeg = db.find({id: {govtrack: legId}})
-
+    let curLeg = db.find({ id: { govtrack: legId } })
+    let curLegBio = getLegislatorBioguide(legId)
+    console.log(JSON.stringify(curLegBio))
     // assign to update
     curLeg
-      .assign({id: legislator.id})
-      .assign({name: legislator.name})
-      .assign({bio: legislator.bio})
-      .assign({terms: legislator.terms})
+      .assign({ id: legislator.id })
+      .assign({ name: legislator.name })
+      .assign({ bio: legislator.bio })
+      .assign({ terms: legislator.terms })
+      .assign({ biograph: curLegBio })
 
     if (legislator.leadership_roles) {
-      curLeg.assign({leadership_roles: legislator.leadership_roles})
+      curLeg.assign({ leadership_roles: legislator.leadership_roles })
     }
     curLeg.write()
+    console.log(JSON.stringify(curLeg))
   }
 }
 
@@ -83,7 +94,7 @@ const task = cron.schedule(
     console.log('Updated Legislators')
     // * idea: add log, and update it after this runs.
   },
-  {scheduled: false},
+  { scheduled: false },
 )
 
 console.log('Starting')

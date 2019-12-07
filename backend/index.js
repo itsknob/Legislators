@@ -1,13 +1,6 @@
-//const fetch = require('./node_modules/node-fetch/lib')
-//const express = require('./node_modules/express')
-//const mongoose = require('mongoose')
-//const {JSDOM} = require('./node_modules/jsdom/lib/api')
-//const keys = require('./config/cred')
-//const routes = require('./routes') // index.js
-
-import fetch1 from 'node-fetch'
-import express1 from 'express'
-import mongoose1 from 'mongoose'
+import fetch from 'node-fetch'
+import express from 'express'
+import mongoose from 'mongoose'
 import JSDOM from 'jsdom'
 import keys from './config/cred.js'
 import routes from './routes/index.js'
@@ -16,37 +9,40 @@ import routes from './routes/index.js'
 //const {ApolloServer, gql} = require('apollo-server-express')
 //const {typeDefs, resolvers} = require('./schema')
 
-import ApolloServer from 'apollo-server-express'
-import gql from 'apollo-server-express'
-import {typeDefs, resolvers} from './schema.js'
+import { ApolloServer } from 'apollo-server-express'
+import { typeDefs, resolvers } from './graphql'
+import cors from 'cors'
 
 //const {JSDOM} = jsdom
-const app = express1()
+const app = express()
 const port = 3001
 
-mongoose1.connect(
-  `mongodb://${keys.database.dbuser}:${
-    keys.database.dbpassword
-  }@ds147354.mlab.com:47354/government`,
+mongoose.connect(
+  `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
 )
 
 // GraphQL Server
+//const {typeDef, resolvers} = Config
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 })
-server.applyMiddleware({app})
+server.applyMiddleware({ app, path: '/graphql' })
 
-app.use('/', routes1)
+app.use(cors())
+
+app.use('/', routes)
 
 app.get('/legislator/:id', async (req, res) => {
-  const para = await getBio(req.params.id)
+  const para = await getBio(req.params.id).catch((error) => {
+    console.log("Failed to await bio: ", error);
+  })
   res.send(para)
 })
 
 async function getBio(id) {
   // work
-  const data = await fetch1(
+  const data = await fetch(
     'http://bioguide.congress.gov/scripts/biodisplay.pl?index=' + id,
   ).catch(err => {
     console.log('Could not find a matching id -- ' + err)
@@ -56,7 +52,7 @@ async function getBio(id) {
   })
 
   // scrape
-  const dom = new JSDOM(html)
+  const dom = new JSDOM.JSDOM(html) // else, JSDOM is not a contstructor
   const p = dom.window.document.querySelector('p').textContent
 
   return new Promise((res, rej) => {

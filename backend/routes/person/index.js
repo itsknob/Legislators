@@ -9,11 +9,15 @@ import lowdb from 'lowdb'
 import FileSync from 'lowdb'
 const person = Router()
 
+/**
+ * Use GovTrack ID to get Legislator
+ * @param {*} personId 
+ */
 function getPersonById(personId) {
   const adapter = new FileSync('./data/legislatorsCurrent.json')
   const db = lowdb(adapter)
 
-  return db.get('legislators').find({id: {govtrack: personId}})
+  return db.get('legislators').find({ id: { govtrack: personId } })
 }
 
 person.get('/all', (req, res) => {
@@ -29,7 +33,7 @@ person.get('/:personId', (req, res) => {
 })
 
 person.get('/', (req, res) => {
-  res.status(200).json({message: 'Connected!'})
+  res.status(200).json({ message: 'Connected!' })
 })
 
 export default person

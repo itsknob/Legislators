@@ -6,7 +6,7 @@ describe('database', () => {
   let db
 
   beforeAll(() => {
-    const adapter = new FileSync('./data/legislatorsCurrent.json')
+    const adapter = new FileSync(`../data/legislatorsCurrent.json`)
     db = lowdb(adapter)
   })
 

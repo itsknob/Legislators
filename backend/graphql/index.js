@@ -1,4 +1,18 @@
-import * as resolvers from './resolvers'
-import * as schemas from './schema'
+import {typeDefs, resolvers} from './legislator'
 
-export {}
+/* const {
+  typeDefs: legislatorTypeDefs,
+  resolvers: legislatorResolvers,
+} = Legislator
+
+const typeDefs = {
+  ...legislatorTypeDefs,
+}
+
+const resolvers = {
+  ...legislatorResolvers,
+} */
+
+// const Config = {typeDef, resolvers}
+
+export {typeDefs, resolvers}

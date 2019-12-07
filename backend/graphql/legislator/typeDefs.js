@@ -1,9 +1,4 @@
 import gql from 'graphql-tag'
-import lowdb from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync'
-
-const adapter = new FileSync('./data/legislatorsCurrent.json')
-const db = lowdb(adapter)
 
 const typeDefs = gql`
   type Query {
@@ -58,19 +53,4 @@ const typeDefs = gql`
   }
 `
 
-const resolvers = {
-  Query: {
-    getLegislators: () => {
-      return db.get('legislators').value()
-    },
-    getLegislatorById: (parent, {id}) => {
-      const p = db
-        .get('legislators')
-        .find({id: {govtrack: id}})
-        .value()
-      return p
-    },
-  },
-}
-
-export {typeDefs, resolvers}
+export default typeDefs

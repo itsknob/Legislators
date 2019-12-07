@@ -4,12 +4,15 @@
   "proxy": "http://localhost:3001",
   "private": true,
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.0",
     "@material-ui/core": "^3.5.1",
-    "ajv": "^6.5.5",
-    "fuse.js": "^3.3.0",
+    "ajv": "^6.10.2",
+    "apollo-boost": "^0.4.4",
+    "fuse.js": "^3.4.5",
+    "graphql": "^14.5.4",
     "material-ui": "^0.20.2",
-    "react": "^16.8.1",
-    "react-dom": "^16.8.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-scripts": "^2.1.5",
     "vanilla-lazyload": "^12.0.0"
   },
@@ -20,9 +23,10 @@
     "test": ".\\\"../backend/node_modules/.bin/jest\""
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "concurrently": "^4.1.0",
-    "nodemon": "^1.19.1"
+    "@types/jest": "^24.0.18",
+    "@types/react": "^16.9.2",
+    "concurrently": "^4.1.2",
+    "nodemon": "^1.19.2"
   },
   "browserslist": [
     ">0.2%",

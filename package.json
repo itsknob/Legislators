@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd frontend & npm run start --experimental-modules"
+    "start-front": "cd frontend && npm run start-react",
+    "start-back": "cd backend && npm run start",
+    "start": "concurrently \"npm run start-front\" \"npm run start-back\""
   },
   "repository": {
     "type": "git",
@@ -16,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/itsknob/Project002/issues"
   },
-  "homepage": "https://github.com/itsknob/Project002#readme"
+  "homepage": "https://github.com/itsknob/Project002#readme",
+  "devDependencies": {
+    "concurrently": "^4.1.2",
+    "jest": "^24.9.0"
+  }
 }
