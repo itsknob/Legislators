@@ -4,7 +4,7 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start-front": "cd frontend && npm run start-react",
     "start-back": "cd backend && npm run start",
     "start": "concurrently \"npm run start-front\" \"npm run start-back\""
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/itsknob/Project002#readme",
   "devDependencies": {
+    "@types/lowdb": "^1.0.9",
     "concurrently": "^4.1.2",
     "jest": "^24.9.0"
   }

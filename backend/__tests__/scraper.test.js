@@ -5,9 +5,6 @@ const FileSync = require('../node_modules/lowdb/adapters/FileSync')
 
 // todo: test functions from scraper.js
 
-const adapter = new FileSync('./data/legislatorsCurrent.json')
-const db = lowdb(adapter)
-
 const nancyTest = {
   id: {
     bioguide: 'P000197',
@@ -246,17 +243,34 @@ const nancyTest = {
   ],
 }
 
-// todo: fix tests (find types?)
 describe('scraper utility', () => {
+  let db
+  let path
+
   beforeEach(() => {
     // todo: mock testing item with necessary fields
     // * Nancy has all of the top level fields available.
+
+    // path is releative to CWD no code
+    const cwd = process.cwd()
+    console.log(process.cwd())
+    if (cwd.search(/Project002$/) !== -1) {
+      path = './backend/data/legislatorsCurrent.json'
+    } else if (cwd.search(/backend$/) !== -1) {
+      path = './data/legislatorsCurrent.json'
+    } else if (cwd.search(/frontend$/) !== -1) {
+      path = '../backend/data/legislatorsCurrent.json'
+    } else {
+      path = '../data/legislatorsCurrent.json'
+    }
+    const adapter = new FileSync(path)
+    db = lowdb(adapter)
   })
 
   afterEach(() => {
     try {
       db.get('legislators')
-        .remove({ name: { official_full: 'Nancy Test' } })
+        .remove({name: {official_full: 'Nancy Test'}})
         .write()
     } catch (e) {
       console.log("Couldn't remove mock data.")
@@ -264,19 +278,17 @@ describe('scraper utility', () => {
     }
   })
 
-  describe('basic operations', () => {
-    test('Add to Database adds correctly (Data is transformed correctly)', () => {
-      db.get('legislators')
-        .push(nancyTest)
-        .write()
+  test('Add to Database adds correctly (Data is transformed correctly)', () => {
+    db.get('legislators')
+      .push(nancyTest)
+      .write()
 
-      const result = db
-        .get('legislators')
-        .find({ name: { official_full: 'Nancy Test' } })
-        .value()
+    const result = db
+      .get('legislators')
+      .find({name: {official_full: 'Nancy Test'}})
+      .value()
 
-      expect(result).not.toBe(undefined)
-    })
+    expect(result).not.toBe(undefined)
   })
 
   // ! outside of my scope, no control over this endpoint (mock?)
@@ -288,18 +300,18 @@ describe('scraper utility', () => {
 
   test('addNewDataToDatabase correctly adds item to database', () => {
     // todo: test scrape.addNewDataToDatabase
-    const mockDataArray = { legislators: [nancyTest] }
+    const mockDataArray = {legislators: [nancyTest]}
     scrape.addNewDataToDatabase([mockDataArray])
 
     expect(
-      db.get('legislators').find({ name: { official_full: 'Nancy Test' } }),
+      db.get('legislators').find({name: {official_full: 'Nancy Test'}}),
     ).not.toBe(undefined)
   })
 
   test('updateLegislators correctly adds item to database', () => {
     scrape.updateLegislators()
     expect(
-      db.get('legislators').find({ name: { official_full: 'Nacny Pelosi' } }),
+      db.get('legislators').find({name: {official_full: 'Nacny Pelosi'}}),
     ).not.toBe(undefined)
   })
 })

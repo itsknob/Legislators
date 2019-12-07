@@ -1,12 +1,23 @@
-const data = require('../data/legislatorsCurrent.json')
 const FileSync = require('../node_modules/lowdb/adapters/FileSync')
 const lowdb = require('../node_modules/lowdb')
 
 describe('database', () => {
   let db
+  let path
 
-  beforeAll(() => {
-    const adapter = new FileSync(`../data/legislatorsCurrent.json`)
+  beforeEach(() => {
+    // path is releative to CWD no code
+    const cwd = process.cwd()
+    if (cwd.search(/Project002$/) !== -1) {
+      path = './backend/data/legislatorsCurrent.json'
+    } else if (cwd.search(/backend$/) !== -1) {
+      path = './data/legislatorsCurrent.json'
+    } else if (cwd.search(/frontend$/) !== -1) {
+      path = '../backend/data/legislatorsCurrent.json'
+    } else {
+      path = '../data/legislatorsCurrent.json'
+    }
+    const adapter = new FileSync(path)
     db = lowdb(adapter)
   })
 
