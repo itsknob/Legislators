@@ -11,9 +11,10 @@ export default class PersonList extends React.Component {
 
   // Add Person to PersonList
   componentDidMount() {
-    fetch(
-      'https://theunitedstates.io/congress-legislators/legislators-current.json',
-    )
+    // fetch(
+    //   'https://theunitedstates.io/congress-legislators/legislators-current.json',
+    // )
+    fetch('/person/all')
       .then(results => {
         return results.json()
       })

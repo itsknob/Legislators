@@ -7,17 +7,36 @@
 import Router from 'express'
 import lowdb from 'lowdb'
 import FileSync from 'lowdb'
+//import Person from '../../../frontend/src/components/Staffers/PersonHook'
+import PersonSchema from '../../models/person'
 const person = Router()
 
 /**
  * Use GovTrack ID to get Legislator
- * @param {*} personId 
+ * @param {*} personId
  */
 function getPersonById(personId) {
-  const adapter = new FileSync('./data/legislatorsCurrent.json')
-  const db = lowdb(adapter)
+  //const adapter = new FileSync('./data/legislatorsCurrent.json')
+  //const db = lowdb(adapter)
 
-  return db.get('legislators').find({ id: { govtrack: personId } })
+  const connection = mongoose
+    .connect(
+      `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
+      {useNewUrlParser: true},
+    )
+    .catch(err => {
+      if (err) console.log(err)
+    })
+  const db = connection.connection
+  console.log('Connected to Database')
+
+  db.on('error', console.error.bind(console, 'connection error:'))
+  db.on('open', async () => {
+    const Person = mongoose.model('Person')
+  })
+  // todo: change these methods over to Mongoose calls
+
+  return db.get('legislators').find({id: {govtrack: personId}})
 }
 
 person.get('/all', (req, res) => {
@@ -33,7 +52,7 @@ person.get('/:personId', (req, res) => {
 })
 
 person.get('/', (req, res) => {
-  res.status(200).json({ message: 'Connected!' })
+  res.status(200).json({message: 'Connected!'})
 })
 
 export default person

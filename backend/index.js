@@ -2,18 +2,26 @@ import express from 'express'
 import mongoose from 'mongoose'
 import keys from './config/cred.js'
 import routes from './routes/index.js'
+import dotenv from 'dotenv'
 
 // GraphQL
 //const {ApolloServer, gql} = require('apollo-server-express')
 //const {typeDefs, resolvers} = require('./schema')
 
-import ApolloExpress from 'apollo-server-express'
-import {ApolloServer} from 'apollo-server-express'
-import gql from 'apollo-server-express'
-import {typeDefs, resolvers} from './graphql'
+// import ApolloExpress from 'apollo-server-express'
+import ApolloServer from 'apollo-server-express'
+// import gql from 'apollo-server-express'
+import {typeDefs, resolvers} from './graphql/index.js'
 import {getMembers, getBios, getBio} from './utils/index.js'
-import tools from 'graphql-tools'
-import bodyParser from 'body-parser'
+// import tools from 'graphql-tools'
+// import bodyParser from 'body-parser'
+// import Person from '../frontend/src/components/Staffers/PersonHook.js'
+// import PersonList from '../frontend/src/components/Staffers/PersonList.js'
+// import PersonSchema from './models/person.js'
+import Person from './models/person.js'
+
+// Environment Variables
+dotenv.config()
 
 //const {JSDOM} = jsdom
 const app = express()
@@ -21,7 +29,7 @@ const port = 3001
 
 // GraphQL Server
 //const {typeDef, resolvers} = Config
-const server = new ApolloServer({
+const server = new ApolloServer.ApolloServer({
   typeDefs,
   resolvers,
 })
@@ -35,22 +43,27 @@ const connection = mongoose
   )
   .then(con => con)
 
-const schema = {typeDefs, resolvers}
+//const schema = {typeDefs, resolvers}
 
 /* Fetch Data on Server Load */
-// Members
-getMembers()
+if (!process.env.SKIP_STARTUP_FETCH) {
+  // Members
+  getMembers()
 
-// Bios
-//getBios()
+  // Bios
+  //getBios()
+}
 
 /* Routes */
 app.use('/', routes)
 
 app.get('/legislator/:id', async (req, res) => {
-  const para = await getBio(req.params.id)
-  res.send(para)
+  const resp = await Person.find({id: {govtrack: req.params.id}})
 })
+// app.get('/legislator/:id', async (req, res) => {
+//   const para = await getBio(req.params.id)
+//   res.send(para)
+// })
 
 app.listen(port, () => {
   console.log(`Listening on ${port}`)

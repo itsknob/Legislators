@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon --experimental-modules index.js",
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node index",
     "scrape": "node ./utils/scraper.js"
   },
   "type": "module",
@@ -27,6 +27,8 @@
   "devDependencies": {
     "@types/jest": "^24.0.13",
     "@types/lowdb": "^1.0.9",
+    "dotenv": "^8.2.0",
+    "eslint-config-prettier": "^6.7.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.0"
   }

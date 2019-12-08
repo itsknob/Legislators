@@ -10,14 +10,18 @@ import fetch from 'node-fetch'
 import JSDOM from 'jsdom'
 import mongoose from 'mongoose'
 import keys from '../config/cred.js'
-// import PersonSchema from '../models/person.js'
+//import Person from '../models/person.js'
 
 async function getMembers() {
   console.log('Updating Legislators')
-  const connection = await mongoose.connect(
-    `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
-    {useNewUrlParser: true},
-  )
+  const connection = await mongoose
+    .connect(
+      `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
+      {useNewUrlParser: true},
+    )
+    .catch(err => {
+      if (err) console.log(err)
+    })
   const db = connection.connection
   console.log('Connected to Database')
 
@@ -141,7 +145,7 @@ async function getMembers() {
           // Person.create(member, (err, m) => {
           //   if (err) console.log(err)
           // })
-          mem.save()
+          // mem.save()
           // }
         })
       })
