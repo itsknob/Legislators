@@ -12,7 +12,7 @@
 
 # misc
 .DS_Store
-.env.local
+#.env.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -28,3 +28,11 @@ yarn-error.log*
 *node_modules*
 
 /api/config/*
+
+.vscode
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> 71935dc38141560ff41ea0c9aff3ddc606dad023
+package-lock.json
