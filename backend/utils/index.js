@@ -12,16 +12,16 @@ import mongoose from 'mongoose'
 import keys from '../config/cred.js'
 //import Person from '../models/person.js'
 
-async function getMembers() {
+async function getMembers(connection) {
   console.log('Updating Legislators')
-  const connection = await mongoose
-    .connect(
-      `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
-      {useNewUrlParser: true},
-    )
-    .catch(err => {
-      if (err) console.log(err)
-    })
+  // const connection = await mongoose
+  //   .connect(
+  //     `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
+  //     {useNewUrlParser: true},
+  //   )
+  //   .catch(err => {
+  //     if (err) console.log(err)
+  //   })
   const db = connection.connection
   console.log('Connected to Database')
 
@@ -159,7 +159,7 @@ async function getMembers() {
   })
 }
 
-async function getBios(id) {
+async function getBios(connection /*, id */) {
   /*
   // DB Connection
   const adapter = new FileSync('../data/legislatorsCurrent.json')

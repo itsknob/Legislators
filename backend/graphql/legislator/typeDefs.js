@@ -3,10 +3,10 @@ import gql from 'graphql-tag'
 const typeDefs = gql`
   type Query {
     getLegislators: [Legislator]
-    getLegislatorById(id: Int!): Legislator
+    getLegislatorById(personId: Int!): Legislator
   }
   type Legislator {
-    id: Id
+    personId: Id
     name: Name
     bio: Bio
     terms: [Terms]

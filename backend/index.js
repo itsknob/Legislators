@@ -27,31 +27,35 @@ dotenv.config()
 const app = express()
 const port = 3001
 
+/* Data Connections */
+async function createConnection() {
+  return await mongoose.connect(
+    `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
+    {useNewUrlParser: true},
+  )
+}
+const connection = createConnection()
+// const schema = {typeDefs, resolvers}
+
 // GraphQL Server
 //const {typeDef, resolvers} = Config
 const server = new ApolloServer.ApolloServer({
   typeDefs,
   resolvers,
+  context: () => ({
+    db: connection,
+  }),
 })
 server.applyMiddleware({app, path: '/graphql'})
-
-/* Data Connections */
-const connection = mongoose
-  .connect(
-    `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
-    {useNewUrlParser: true},
-  )
-  .then(con => con)
 
 //const schema = {typeDefs, resolvers}
 
 /* Fetch Data on Server Load */
 if (!process.env.SKIP_STARTUP_FETCH) {
   // Members
-  getMembers()
-
+  // getMembers(connection)
   // Bios
-  //getBios()
+  //getBios(connection)
 }
 
 /* Routes */

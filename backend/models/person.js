@@ -80,9 +80,9 @@ const PersonSchema = new Schema(
   {collection: 'Members'},
 )
 
-//const Person = mongoose.model('Person', PersonSchema)
+const Person = mongoose.model('Person', PersonSchema)
 
 // module.exports = {
 //   PersonModel: PersonModel,
 // }
-export default {PersonSchema}
+export default {PersonSchema, Person}
