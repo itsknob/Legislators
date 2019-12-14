@@ -21,7 +21,6 @@
   "homepage": "https://github.com/itsknob/Project002#readme",
   "devDependencies": {
     "@types/lowdb": "^1.0.9",
-    "concurrently": "^4.1.2",
-    "jest": "^24.9.0"
+    "concurrently": "^4.1.2"
   }
 }
