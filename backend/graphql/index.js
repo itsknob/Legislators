@@ -1,4 +1,4 @@
-import {typeDefs, resolvers} from './legislator'
+import {typeDefs, resolvers} from './legislator/index.js'
 
 /* const {
   typeDefs: legislatorTypeDefs,

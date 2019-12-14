@@ -9,17 +9,23 @@ import routes from './routes/index.js'
 //const {ApolloServer, gql} = require('apollo-server-express')
 //const {typeDefs, resolvers} = require('./schema')
 
-import { ApolloServer } from 'apollo-server-express'
-import { typeDefs, resolvers } from './graphql'
+import ApolloServerExpress from 'apollo-server-express'
+const {ApolloServer} = ApolloServerExpress
+import {typeDefs, resolvers} from './graphql/index.js'
 import cors from 'cors'
 
 //const {JSDOM} = jsdom
 const app = express()
 const port = 3001
 
-mongoose.connect(
-  `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
-)
+mongoose
+  .connect(
+    `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
+    {useUnifiedTopology: true, useNewUrlParser: true},
+  )
+  .catch(err => {
+    if (err) console.log(`Error in Mongoose Connection: Index.js -- ${err}`)
+  })
 
 // GraphQL Server
 //const {typeDef, resolvers} = Config
@@ -27,15 +33,15 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
 })
-server.applyMiddleware({ app, path: '/graphql' })
+server.applyMiddleware({app, path: '/graphql'})
 
 app.use(cors())
 
 app.use('/', routes)
 
 app.get('/legislator/:id', async (req, res) => {
-  const para = await getBio(req.params.id).catch((error) => {
-    console.log("Failed to await bio: ", error);
+  const para = await getBio(req.params.id).catch(error => {
+    console.log('Failed to await bio: ', error)
   })
   res.send(para)
 })

@@ -1,8 +1,8 @@
 import lowdb from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync'
+import FileSync from 'lowdb/adapters/FileSync.js'
 
-const adapter = new FileSync('./data/legislatorsCurrent.json')
-const db = lowdb(adapter)
+// const adapter = new FileSync('./data/legislatorsCurrent.json')
+// const db = lowdb(adapter)
 
 const resolvers = {
   Query: {
