@@ -7,202 +7,101 @@
 import fetch from 'node-fetch'
 // import lowdb from 'lowdb'
 // import FileSync from '../node_modules/lowdb/adapters/FileSync.js'
-import JSDOM from 'jsdom'
+import jsdom from 'jsdom'
 import mongoose from 'mongoose'
 import keys from '../config/cred.js'
-//import Person from '../models/person.js'
+import models from '../models/person.js'
+const {Person, PersonSchema} = models
+const {JSDOM} = jsdom
 
 async function getMembers(connection) {
   console.log('Updating Legislators')
-  // const connection = await mongoose
-  //   .connect(
-  //     `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
-  //     {useNewUrlParser: true},
-  //   )
-  //   .catch(err => {
-  //     if (err) console.log(err)
-  //   })
-  const db = connection.connection
-  console.log('Connected to Database')
 
-  db.on('error', console.error.bind(console, 'connection error:'))
-  db.on('open', async () => {
-    const Schema = mongoose.Schema
-    const PersonSchema = new Schema(
-      {
-        personId: {
-          bioguide: {
-            type: 'String',
-          },
-          thomas: {
-            type: 'Date',
-          },
-          lis: {
-            type: 'String',
-          },
-          govtrack: {
-            type: 'Number',
-          },
-          opensecrets: {
-            type: 'String',
-          },
-          votesmart: {
-            type: 'Number',
-          },
-          fec: {
-            type: ['String'],
-          },
-          cspan: {
-            type: 'Number',
-          },
-          wikipedia: {
-            type: 'String',
-          },
-          house_history: {
-            type: 'Number',
-          },
-          ballotpedia: {
-            type: 'String',
-          },
-          maplight: {
-            type: 'Number',
-          },
-          icpsr: {
-            type: 'Number',
-          },
-          wikidata: {
-            type: 'String',
-          },
-          google_entity_id: {
-            type: 'String',
-          },
-        },
-        name: {
-          first: {
-            type: 'String',
-          },
-          last: {
-            type: 'String',
-          },
-          official_full: {
-            type: 'String',
-          },
-        },
-        bio: {
-          birthday: {
-            type: 'Date',
-          },
-          gender: {
-            type: 'String',
-          },
-          religion: {
-            type: 'String',
-          },
-        },
-        terms: {
-          type: ['Mixed'],
-        },
+  console.log('Fetching new data')
+  const results = await fetch(
+    'https://theunitedstates.io/congress-legislators/legislators-current.json',
+  )
+
+  console.log('Fetched Legislators')
+  const members = await results.json()
+
+  members.forEach((member, index) => {
+    process.stdout.write(
+      `Loading Legislators ${index} of ${members.length - 1} \r`,
+    )
+    // Update 'id' field to 'personId'
+    member.personId = member.id
+    delete member.id
+
+    // Update Database
+    Person.updateOne(
+      {'personId.govtrack': member.personId.govtrack}, // condition
+      member, //update
+      {upsert: true}, //options
+      err => {
+        // callback
+        if (err)
+          console.log(
+            `Error: Could not update member with GovtrackId: ${member.personId.govtrack}`,
+          )
       },
-      {collection: 'Members'},
     )
-    const Person = mongoose.model('Person', PersonSchema)
-
-    console.log('Fetching new data')
-    fetch(
-      'https://theunitedstates.io/congress-legislators/legislators-current.json',
-    )
-      .then(results => {
-        console.log('Fetched Legislators')
-        return results.json()
-      })
-      .then(members => {
-        console.log('Loading Legislators')
-        members.forEach((member, index) => {
-          console.log(`${index} of ${members.length}`)
-          member.personId = member.id
-          delete member.id
-          console.log(JSON.stringify(member))
-          // if (
-          //   db
-          //     .find()
-          //     .where({
-          //       name: {official_full: member.name.official_full},
-          //     })
-          //     .exists(true)
-          // ) {
-          //   console.log(`Updating ${member.name.official_full}`)
-          //   // Update Current Model
-          //   // Todo Fill in Update Code
-          //   /*  let m = db.findOne({id: {govtrack: member.id.govtrack}})
-          //   if(JSON.stringify(m) === JSON.stringify(member)) {
-          //     continue
-          //   } else {
-          //     console.log(`Updating ${member.name.official_full}`)
-          //     //m.update(member) field that needs to be updated
-          //   } */
-          // } else {
-          let mem = new Person({...member})
-          // Person.create(member, (err, m) => {
-          //   if (err) console.log(err)
-          // })
-          // mem.save()
-          // }
-        })
-      })
-      .then(() => {
-        console.log('Updated Legislators')
-        mongoose.disconnect()
-      })
-      .catch(error => {
-        console.error(error)
-      })
   })
+  console.log('\nUpdated Legislators')
 }
 
-async function getBios(connection /*, id */) {
-  /*
-  // DB Connection
-  const adapter = new FileSync('../data/legislatorsCurrent.json')
-  const db = lowdb(adapter)
-
-  console.log('Updating Bios')
-
-  // Get Members and MemberIds
-  const members = db.get('Legislators')
-  members = members.value()
-  const memberIds = members.map('id[bioguide]')
-  memberIds = memberIds.value()
-
-  console.log(memberIds)
-
+async function getBios() {
+  console.log('Getting Members')
+  let p
+  const legislators = await Person.find()
   // foreach MemberID get Bio, write bio to Member
-  memberIds.forEach(async (memberId, index) => {
-    const data = await fetch(
-      'http://bioguide.congress.gov/scripts/biodisplay.pl?index=' + memberId,
-    ).catch(err => {
-      console.log('Could not find a matching id -- ' + err)
-    })
-    const html = await data.text().catch(() => {
-      console.log('Could not convert text to html')
-    })
-    const dom = new JSDOM(html)
-    const p = dom.window.document.querySelector('p').textContent
+  try {
+    legislators.forEach(async (member, index) => {
+      // console.log(member.personId.bioguide)
 
-    db.get('Legislators')
-      .find({id: {bioguide: memberId}})
-      .set({bio: p})
-      .write()
-  })
+      // Fetch Page
+      const data = await fetch(
+        'http://bioguide.congress.gov/scripts/biodisplay.pl?index=' +
+          member.personId.bioguide,
+      ).catch(err => {
+        console.log(
+          'Could not find a matching id -- ' +
+            err +
+            ` -- ID: ${member.personId.bioguide}`,
+        )
+      })
+
+      // Get the biography html
+      const html = await data
+        .text()
+        .catch(() => {
+          console.log('Could not convert text to html')
+        })
+        .catch(err => console.log(err))
+
+      // Scrape the text
+      const dom = new JSDOM(html)
+      try {
+        p = await dom.window.document.querySelector('p').textContent
+      } catch (err) {
+        console.log(`Error trying to parse text content from bio: ${err}`)
+        p = 'No Bio'
+      }
+
+      // Update DB
+      Person.updateOne(
+        {'personId.govtrack': member.personId.govtrack}, // condition
+        {'bio.biography': p}, // update
+        {upsert: true}, // options
+      ).catch(err => console.log(err))
+    })
+  } catch (e) {
+    console.log(e)
+  }
 
   console.log('Updated Bios')
 
-  return new Promise((res, rej) => {
-    res(String(p))
-    rej('Failed to getBio')
-  }).catch(err => {
-    console.log('Failed to get bio -- ' + err)
-  })
-  */
+  return p
 }
 
 async function getBio(id) {

@@ -25,16 +25,16 @@ export default class PersonList extends React.Component {
         let thisPerson = data.map(person => {
           return (
             <PersonHook
-              key={person.id.govtrack}
-              id={person.id.govtrack}
-              bioguide={person.id.bioguide}
+              key={person.personId.govtrack}
+              id={person.personId.govtrack}
+              bioguide={person.personId.bioguide}
               name={person.name.official_full}
               position={person.terms[person.terms.length - 1].type}
               location={person.terms[person.terms.length - 1].state}
               startTerm={person.terms[person.terms.length - 1].start}
               party={person.terms[person.terms.length - 1].party}
               otherData={person}
-              bioGuideId={person.id.bioguide}
+              bioGuideId={person.personId.bioguide}
             />
           )
         })

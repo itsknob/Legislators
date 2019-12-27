@@ -14,7 +14,7 @@ import Schema from '../../models/person.js'
 //     if (err) console.log(err)
 //   })
 // const db = connection.connection
-
+// TODO: Update this to MLab and Mongoose
 const resolvers = {
   Query: {
     getLegislators: (parent, _, context) => {

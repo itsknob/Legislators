@@ -72,6 +72,9 @@ const PersonSchema = new Schema(
       religion: {
         type: 'String',
       },
+      biography: {
+        type: 'String',
+      },
     },
     terms: {
       type: ['Mixed'],

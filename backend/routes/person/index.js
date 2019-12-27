@@ -5,48 +5,50 @@
 // const FileSync = require('../../node_modules/lowdb/adapters/FileSync')
 
 import Router from 'express'
-import lowdb from 'lowdb'
-import FileSync from 'lowdb'
+// import lowdb from 'lowdb'
+// import FileSync from 'lowdb'
 //import Person from '../../../frontend/src/components/Staffers/PersonHook'
-import PersonSchema from '../../models/person'
+import models from '../../models/person'
+const {Person} = models
 const person = Router()
 
 /**
  * Use GovTrack ID to get Legislator
  * @param {*} personId
  */
-function getPersonById(personId) {
+async function getPersonById(personId) {
   //const adapter = new FileSync('./data/legislatorsCurrent.json')
   //const db = lowdb(adapter)
 
-  const connection = mongoose
-    .connect(
-      `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
-      {useNewUrlParser: true},
-    )
-    .catch(err => {
-      if (err) console.log(err)
-    })
-  const db = connection.connection
-  console.log('Connected to Database')
+  // const connection = mongoose
+  //   .connect(
+  //     `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
+  //     {useNewUrlParser: true},
+  //   )
+  //   .catch(err => {
+  //     if (err) console.log(err)
+  //   })
+  // const db = connection.connection
+  // console.log('Connected to Database')
 
-  db.on('error', console.error.bind(console, 'connection error:'))
-  db.on('open', async () => {
-    const Person = mongoose.model('Person')
-  })
+  // db.on('error', console.error.bind(console, 'connection error:'))
+  // db.on('open', async () => {
+  // const Person = mongoose.model('Person')
+  // })
   // todo: change these methods over to Mongoose calls
-
-  return db.get('legislators').find({id: {govtrack: personId}})
+  return await Person.findOne({personId: {govtrack: personId}})
+  // return db.get('legislators').find({id: {govtrack: personId}})
 }
 
-person.get('/all', (req, res) => {
-  const adapter = new FileSync('./data/legislatorsCurrent.json')
-  const db = lowdb(adapter)
+person.get('/all', async (req, res) => {
+  // const adapter = new FileSync('./data/legislatorsCurrent.json')
+  // const db = lowdb(adapter)
 
-  res.send(db.get('legislators'))
+  // res.send(db.get('legislators'))
+  res.send(await Person.find({}))
 })
-person.get('/:personId', (req, res) => {
-  const value = getPersonById(Number(req.params.personId))
+person.get('/:personId', async (req, res) => {
+  const value = await getPersonById(Number(req.params.personId))
 
   res.send(value)
 })

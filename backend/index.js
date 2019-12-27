@@ -31,7 +31,7 @@ const port = 3001
 async function createConnection() {
   return await mongoose.connect(
     `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
-    {useNewUrlParser: true},
+    {useNewUrlParser: true, useUnifiedTopology: true},
   )
 }
 const connection = createConnection()
@@ -52,17 +52,22 @@ server.applyMiddleware({app, path: '/graphql'})
 
 /* Fetch Data on Server Load */
 if (!process.env.SKIP_STARTUP_FETCH) {
-  // Members
-  // getMembers(connection)
-  // Bios
-  //getBios(connection)
+  async function updateApp() {
+    // Members
+    await getMembers(connection).catch(err => `Error getting Members: ${err}`)
+    // Bios
+    await getBios(connection).catch(err =>
+      console.log(`Error getting Bios: ${err}`),
+    )
+  }
+  updateApp()
 }
 
 /* Routes */
 app.use('/', routes)
 
 app.get('/legislator/:id', async (req, res) => {
-  const resp = await Person.find({id: {govtrack: req.params.id}})
+  const resp = await Person.findOne({id: {govtrack: req.params.id}})
 })
 // app.get('/legislator/:id', async (req, res) => {
 //   const para = await getBio(req.params.id)
