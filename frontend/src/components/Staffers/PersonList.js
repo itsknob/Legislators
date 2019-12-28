@@ -1,12 +1,37 @@
 import React from 'react'
 import PersonHook from './PersonHook.js'
+import {useQuery} from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
+const GET_MEMBERS = gql`
+  {
+    getLegislators: {
+      personId: {
+        bioguide
+        govtrack
+      }
+      name {
+        official_full
+      }
+      terms {
+        type
+        state
+        start
+        party
+      }
+      bio {
+        birthday
+      }
+    }
+  }
+`
 export default class PersonList extends React.Component {
   constructor() {
     super()
     this.state = {
       people: [],
     }
+    const {loading, error, data} = useQuery(GET_MEMBERS)
   }
 
   // Add Person to PersonList
@@ -43,6 +68,8 @@ export default class PersonList extends React.Component {
   }
 
   render() {
+    if (this.error) return `Error! ${this.error}`
+    if (this.loading) return null
     return <div className="PersonList">{this.state.people}</div>
   }
 }

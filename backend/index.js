@@ -67,7 +67,7 @@ if (!process.env.SKIP_STARTUP_FETCH) {
 app.use('/', routes)
 
 app.get('/legislator/:id', async (req, res) => {
-  const resp = await Person.findOne({id: {govtrack: req.params.id}})
+  const resp = await Person.find({id: {govtrack: req.params.id}})
 })
 // app.get('/legislator/:id', async (req, res) => {
 //   const para = await getBio(req.params.id)

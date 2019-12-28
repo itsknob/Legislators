@@ -1,20 +1,21 @@
-import React from "react";
+import React from 'react'
 
-import PersonList from "./Staffers/PersonList";
+import PLG from './Staffers/PersonListGQL'
+const {PersonListGQL} = PLG
 
 export default class Layout extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            people: []
-        }
+  constructor() {
+    super()
+    this.state = {
+      people: [],
     }
+  }
 
-    render() {
-        return(
-            <div>
-                <PersonList list={this.getPeople} />
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <PersonListGQL />
+      </div>
+    )
+  }
 }

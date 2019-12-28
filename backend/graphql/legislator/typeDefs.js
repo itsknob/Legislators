@@ -35,6 +35,7 @@ const typeDefs = gql`
   type Bio {
     birthday: String
     gender: String
+    biography: String
   }
   type Terms {
     type: String
