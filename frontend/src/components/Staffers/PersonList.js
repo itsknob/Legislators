@@ -1,12 +1,12 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import PersonHook from './PersonHook.js'
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 const GET_MEMBERS = gql`
   {
-    getLegislators: {
-      personId: {
+    getLegislators {
+      personId {
         bioguide
         govtrack
       }
@@ -21,55 +21,39 @@ const GET_MEMBERS = gql`
       }
       bio {
         birthday
+        biography
       }
     }
   }
 `
-export default class PersonList extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      people: [],
+
+// TODO -- still not conviced this is the best way to render this out. PersonHook should probably query it's own data.
+// TODO Rename to PersonHook.js
+const PersonList = props => {
+  const [people, setPeople] = useState([])
+  let loading, error, data
+
+  const result = useQuery(GET_MEMBERS)
+  loading = result.loading
+  error = result.error
+  data = result.data
+
+  // on status change
+  useEffect(() => {
+    if (data !== undefined) {
+      let peopleComponents = data.getLegislators.map(person => (
+        <PersonHook key={person.personId.govtrack} data={person} />
+      ))
+      setPeople(peopleComponents)
     }
-    const {loading, error, data} = useQuery(GET_MEMBERS)
-  }
+  }, [loading, error, data])
 
-  // Add Person to PersonList
-  componentDidMount() {
-    // fetch(
-    //   'https://theunitedstates.io/congress-legislators/legislators-current.json',
-    // )
-    fetch('/person/all')
-      .then(results => {
-        return results.json()
-      })
-      .then(data => {
-        // DB Should be populated else where, and pulled from here
-
-        //data = data.slice(0, 15)
-        let thisPerson = data.map(person => {
-          return (
-            <PersonHook
-              key={person.personId.govtrack}
-              id={person.personId.govtrack}
-              bioguide={person.personId.bioguide}
-              name={person.name.official_full}
-              position={person.terms[person.terms.length - 1].type}
-              location={person.terms[person.terms.length - 1].state}
-              startTerm={person.terms[person.terms.length - 1].start}
-              party={person.terms[person.terms.length - 1].party}
-              otherData={person}
-              bioGuideId={person.personId.bioguide}
-            />
-          )
-        })
-        this.setState({people: [...this.state.people, thisPerson]})
-      })
-  }
-
-  render() {
-    if (this.error) return `Error! ${this.error}`
-    if (this.loading) return null
-    return <div className="PersonList">{this.state.people}</div>
-  }
+  // If loading, null; if error, error; else PersonHook List
+  return loading ? null : error ? (
+    `Error! ${error}` // not loading && is error
+  ) : (
+    <div className="PersonList">{people}</div> // not loading && not error
+  )
 }
+
+export default {PersonListGQL: PersonList}

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import PLG from './Staffers/PersonListGQL'
-const {PersonListGQL} = PLG
+import PL from './Staffers/PersonList'
+const {PersonList} = PL
 
 export default class Layout extends React.Component {
   constructor() {
@@ -14,7 +14,7 @@ export default class Layout extends React.Component {
   render() {
     return (
       <div>
-        <PersonListGQL />
+        <PersonList />
       </div>
     )
   }
