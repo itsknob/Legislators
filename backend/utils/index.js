@@ -38,7 +38,7 @@ async function getMembers(connection) {
       {'personId.govtrack': member.personId.govtrack}, // condition
       member, //update
       {upsert: true}, //options
-      err => {
+      (err) => {
         // callback
         if (err)
           console.log(
@@ -53,7 +53,9 @@ async function getMembers(connection) {
 async function getBios() {
   console.log('Getting Members')
   let p
-  const legislators = await Person.find()
+  const legislators = await Person.find().catch((err) => {
+    throw err
+  })
   // foreach MemberID get Bio, write bio to Member
   try {
     legislators.forEach(async (member, index) => {
@@ -61,31 +63,33 @@ async function getBios() {
 
       // Fetch Page
       const data = await fetch(
-        'http://bioguide.congress.gov/scripts/biodisplay.pl?index=' +
+        'https://bioguideretro.congress.gov/Home/MemberDetails?memIndex=' +
           member.personId.bioguide,
-      ).catch(err => {
+      ).catch((err) => {
         console.log(
           'Could not find a matching id -- ' +
             err +
             ` -- ID: ${member.personId.bioguide}`,
         )
+        throw err
       })
 
       // Get the biography html
-      const html = await data
-        .text()
-        .catch(() => {
-          console.log('Could not convert text to html')
-        })
-        .catch(err => console.log(err))
+      const html = await data.text().catch(() => {
+        console.log('Could not convert text to html')
+        throw err
+      })
 
       // Scrape the text
       const dom = new JSDOM(html)
       try {
-        p = await dom.window.document.querySelector('p').textContent
+        p = dom.window.document.querySelector('biography')
+        if (p !== null) p = p.innerText
+        else p = 'No Bio'
       } catch (err) {
         console.log(`Error trying to parse text content from bio: ${err}`)
         p = 'No Bio'
+        throw err
       }
 
       // Update DB
@@ -93,7 +97,7 @@ async function getBios() {
         {'personId.govtrack': member.personId.govtrack}, // condition
         {'bio.biography': p}, // update
         {upsert: true}, // options
-      ).catch(err => console.log(err))
+      ).catch((err) => console.log(err))
     })
   } catch (e) {
     console.log(e)
@@ -108,9 +112,11 @@ async function getBio(id) {
   // work
   const data = await fetch(
     'http://bioguide.congress.gov/scripts/biodisplay.pl?index=' + id,
-  ).catch(err => {
+    {redirect: 'follow', mode: 'no-cors'},
+  ).catch((err) => {
     console.log('Could not find a matching id -- ' + err)
   })
+  console.log(data)
   const html = await data.text().catch(() => {
     console.log('Could not convert text to html')
   })
@@ -120,7 +126,7 @@ async function getBio(id) {
   return new Promise((res, rej) => {
     res(String(p))
     rej('Failed to getBio')
-  }).catch(err => {
+  }).catch((err) => {
     console.log('Failed to get bio -- ' + err)
   })
 }

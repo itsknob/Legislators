@@ -56,4 +56,4 @@ const PersonList = props => {
   )
 }
 
-export default {PersonListGQL: PersonList}
+export default {PersonList}

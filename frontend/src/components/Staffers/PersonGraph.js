@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import './Staffers.css'
-import { Card, Typography } from '@material-ui/core'
+import {Card, Typography} from '@material-ui/core'
 import LazyImage from '../LazyLoad/LazyImage'
 
-const Person = (props) => {
-
+const Person = props => {
+  const imageURL = 'https://www.govtrack.us/static/legislator-photos/'
 
   return (
-    <div style={{ maxHeight: '500px' }}>
+    <div style={{maxHeight: '500px'}}>
       <Card className="PersonBox">
         <LazyImage
           className="ImageBox"
@@ -15,7 +15,7 @@ const Person = (props) => {
           data-src={imageURL + props.id + '-200px.jpeg'}
           src={imageURL + props.id + '-200px.jpeg'}
           alt={props.name}
-          style={{ boxShadow: '1px 1px 5px black' }}
+          style={{boxShadow: '1px 1px 5px black'}}
         />
         <Typography className="NameBox" variant="h4">
           {props.name}

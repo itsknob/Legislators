@@ -1,10 +1,14 @@
 module.exports = {
-  projects: ['./frontend/jest.config.js', './backend/jest.config.js'],
+  rootDir: './',
+  projects: [
+    '<rootDir>/frontend/jest.config.js',
+    '<rootDir>/backend/jest.config.js',
+  ],
   coverageDirectory: './coverage/',
   collectCoverageFrom: ['./frontend/**/*.js', './backend/**/*.js'],
   moduleDirectories: [
-    './frontend/node_modules',
-    './backend/node_modules',
-    './backend/graphql',
+    '<rootDir>/frontend/node_modules',
+    '<rootDir>/backend/node_modules',
+    '<rootDir>/backend/graphql',
   ],
 }

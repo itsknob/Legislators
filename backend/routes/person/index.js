@@ -7,8 +7,7 @@
 import Router from 'express'
 // import lowdb from 'lowdb'
 // import FileSync from 'lowdb'
-//import Person from '../../../frontend/src/components/Staffers/PersonHook'
-import models from '../../models/person'
+import models from '../../models/person.js'
 const {Person} = models
 const person = Router()
 
