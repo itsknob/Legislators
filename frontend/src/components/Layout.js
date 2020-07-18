@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Home } from "../pages";
 import PersonList from "./Staffers/PersonList";
 
 export default class Layout extends React.Component {
@@ -13,6 +14,7 @@ export default class Layout extends React.Component {
     render() {
         return(
             <div>
+                <Home />
                 <PersonList list={this.getPeople} />
             </div>
         )
