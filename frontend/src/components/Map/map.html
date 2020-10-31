@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="map"></div>
-    <pre>b2c0a136d9b169386e4df7cb9b6c291f514f6ded</pre>
+    <pre>Auth Key</pre>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-queue/3.0.7/d3-queue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
@@ -19,7 +19,7 @@
             'https://api.github.com/repositories/15808774/contents/cds/2016?ref=gh-pages',
             {
               headers: {
-                Authorization: 'token b2c0a136d9b169386e4df7cb9b6c291f514f6ded',
+                Authorization: 'token AuthKey',
               },
             },
           )
@@ -31,7 +31,7 @@
         let downloadUrls = cds.map(async directory => {
           let data = await fetch(directory.url, {
             headers: {
-              Authorization: 'token b2c0a136d9b169386e4df7cb9b6c291f514f6ded',
+              Authorization: 'token AuthKey',
             },
           })
           let district = await data.json()
@@ -44,7 +44,7 @@
         // let district = await (
         //   await fetch(cds.url, {
         //     headers: {
-        //       Authorization: 'token b2c0a136d9b169386e4df7cb9b6c291f514f6ded',
+        //       Authorization: 'token AuthKey',
         //     },
         //   })
         // ).json()

@@ -30,9 +30,9 @@ const port = 3001
 /* Data Connections */
 async function createConnection() {
   return await mongoose.connect(
-    `mongodb://${keys.database.dbuser}:${keys.database.dbpassword}@ds147354.mlab.com:47354/government`,
+    `mongodb+srv://${keys.database.dbuser}:${keys.database.dbpassword}@government.lhzhu.mongodb.net/government?retryWrites=true&w=majority`,
     {useNewUrlParser: true, useUnifiedTopology: true},
-  )
+  ).catch((error) => { throw new Error("DB Connection Issue " + error)})
 }
 const connection = createConnection()
 // const schema = {typeDefs, resolvers}
