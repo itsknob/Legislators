@@ -1,6 +1,6 @@
 module.exports = {
   name: 'frontend',
   displayName: 'Frontend',
-  rootDir: '../',
+  rootDir: './',
   testMatch: ['./__tests__/*.test.js'],
 }

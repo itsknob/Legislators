@@ -54,9 +54,9 @@ server.applyMiddleware({app, path: '/graphql'})
 if (!process.env.SKIP_STARTUP_FETCH) {
   async function updateApp() {
     // Members
-    await getMembers(connection).catch(err => `Error getting Members: ${err}`)
+    await getMembers(connection).catch((err) => `Error getting Members: ${err}`)
     // Bios
-    await getBios(connection).catch(err =>
+    await getBios(connection).catch((err) =>
       console.log(`Error getting Bios: ${err}`),
     )
   }

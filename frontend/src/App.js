@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import './App.css'
-import Header from './components/Header'
-import Layout from './components/Layout'
+import {Header} from './components/Header'
+import {Layout} from './components/Layout'
 
 class App extends Component {
   changeName(value) {

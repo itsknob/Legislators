@@ -3,10 +3,10 @@ const {Person} = Schema
 
 const resolvers = {
   Query: {
-    getLegislators: (parent, _, context) => {
+    getLegislators: (_parent, _args, _context) => {
       return Person.find()
     },
-    getLegislatorById: async (parent, {id}, context) => {
+    getLegislatorById: async (_parent, {id}, _context) => {
       return await Person.find({'personId.govtrack': id})
     },
   },

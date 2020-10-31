@@ -11,8 +11,8 @@ import jsdom from 'jsdom'
 import mongoose from 'mongoose'
 import keys from '../config/cred.js'
 import models from '../models/person.js'
-const {Person, PersonSchema} = models
-const {JSDOM} = jsdom
+const { Person, PersonSchema } = models
+const { JSDOM } = jsdom
 
 async function getMembers(connection) {
   console.log('Updating Legislators')
@@ -35,9 +35,9 @@ async function getMembers(connection) {
 
     // Update Database
     Person.updateOne(
-      {'personId.govtrack': member.personId.govtrack}, // condition
+      { 'personId.govtrack': member.personId.govtrack }, // condition
       member, //update
-      {upsert: true}, //options
+      { upsert: true }, //options
       (err) => {
         // callback
         if (err)
@@ -94,9 +94,9 @@ async function getBios() {
 
       // Update DB
       Person.updateOne(
-        {'personId.govtrack': member.personId.govtrack}, // condition
-        {'bio.biography': p}, // update
-        {upsert: true}, // options
+        { 'personId.govtrack': member.personId.govtrack }, // condition
+        { 'bio.biography': p }, // update
+        { upsert: true }, // options
       ).catch((err) => console.log(err))
     })
   } catch (e) {
@@ -112,7 +112,7 @@ async function getBio(id) {
   // work
   const data = await fetch(
     'http://bioguide.congress.gov/scripts/biodisplay.pl?index=' + id,
-    {redirect: 'follow', mode: 'no-cors'},
+    { redirect: 'follow', mode: 'no-cors' },
   ).catch((err) => {
     console.log('Could not find a matching id -- ' + err)
   })
@@ -131,4 +131,4 @@ async function getBio(id) {
   })
 }
 
-export {getMembers, getBios, getBio}
+export { getMembers, getBios, getBio }

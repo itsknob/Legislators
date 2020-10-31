@@ -1,0 +1,16 @@
+.sidebar {
+  border: 1px;
+  width: 10vw;
+  height: 100vh;
+  text-align: left;
+}
+
+@media (max-width: 400px) {
+  .sidebar {
+    width: 100vw;
+  }
+}
+
+.sidebar li {
+  list-style: none;
+}

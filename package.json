@@ -1,13 +1,14 @@
 {
   "name": "legislators",
   "version": "1.0.0",
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
+  "description": "Better than Congress.gov",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "start-front": "cd frontend && npm run start-react",
     "start-back": "cd backend && npm run start",
-    "start": "concurrently \"npm run start-front\" \"npm run start-back\""
+    "start": "concurrently \"npm run start-front\" \"npm run start-back\"",
+    "install-all": "npm install & npm install --prefix frontend && npm install --prefix backend"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,8 @@
   "devDependencies": {
     "@types/lowdb": "^1.0.9",
     "concurrently": "^4.1.2"
+  },
+  "dependencies": {
+    "react-scripts": "4.0.0"
   }
 }
